@@ -3,6 +3,7 @@
 
 search
 ------
+
     request:
         + q
         > search term
@@ -36,6 +37,7 @@ search
 
 related
 -------
+
     request:
         + term
         + numOfTerms 
@@ -53,7 +55,7 @@ didyoumean
       + term
       + numAlt
       > Number of alternate tags to return.
-        exapmle: `/api/didyoumean?term='mizspeld'&numAlt=2`
+        example: `/api/didyoumean?term='mizspeld'&numAlt=2`
 
    return:
       + wrong: 0, 
@@ -63,10 +65,12 @@ didyoumean
 
 uploadlink
 ----------
+
     request:
       + link='http://www.google.com/images/logos/google_logo_41.png'
       + tags=tag1+tag2+tag3. . .
         example: `/api/uploadlink?link='http://www.google.com/images/logos/google_logo_41.png'&tags='google'+'logo'
+        
    return:
       + success: 0,
       + id: 'asdf'
@@ -78,6 +82,7 @@ uploadfile
 
 makealbum
 ---------
+
     request:
       + ids=id1+id2+id3. . .
       > Ids of already uploaded pictures
