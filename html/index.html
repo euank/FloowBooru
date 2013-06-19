@@ -2,7 +2,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Flowbooru: The Better Booru</title>
+<title>Floowbooru: The Better Booru</title>
+<!-- Congrats on reading the source code! -->
 
 <style>
    body, div, h1, h2, h3, h4, h5, h6, img, a, p {
@@ -15,6 +16,7 @@
       background: #262B2C;
       color: #D8D8D8;
       font-family: "Lucida Console", Monaco, monospace;
+      font-size: .8em;
    }
    
    #header {
@@ -28,6 +30,7 @@
    }
 
    #header a {
+      display: inline-block;
       text-decoration: underline;
       cursor: pointer;
    }
@@ -52,7 +55,7 @@
       outline-color: #D8D8D8;
    }
 
-   #selection-overlay, #adv-search-overlay {
+   #selection-overlay {
       display: none;
       position: absolute;
       top: 0; 
@@ -63,7 +66,7 @@
       z-index: 10;
    }
 
-   #selection-container, #adv-search-container {
+   #selection-container {
       width: 100%;
       position: absolute;
       top: 10%;
@@ -76,6 +79,13 @@
 
    }
 
+   #adv-search-container {
+      display: none;
+   }
+
+   #adv-search-container div {
+      padding-left:  20px;
+   }
 </style>
 
 <script>
@@ -89,7 +99,7 @@
          document.getElementById("number-of-results").innerHTML = "10,000 results for \"" + term + "\"";
       }
       
-      createSearchBarOffset();
+      setHeaderOffset();
 
       // insert search results
       for (ii = 1; ii < 99; ++ii) {
@@ -111,15 +121,13 @@
    }
 
    function init() {
-      createSearchBarOffset();
+      setHeaderOffset();
       searchForTerm('');
    }
 
    function displayImageOverlay(imageId) {
       var img;
       
-      hideAdvSearchOverlay();
-
       img = document.getElementById("selection-overlay-image").src = "../imgs/" + imageId + ".jpg";
       document.getElementById("selection-overlay").style.display = 'block';
    }
@@ -128,16 +136,17 @@
       document.getElementById("selection-overlay").style.display = 'none';
    }
 
-   function displayAdvSearchOverlay() {
-      hideImageOverlay();
-      document.getElementById("adv-search-overlay").style.display = 'block';
+   function displayAdvSearch() {
+      document.getElementById("adv-search-container").style.display = 'block';
+      setHeaderOffset();
    }
 
-   function hideAdvSearchOverlay() {
-      document.getElementById("adv-search-overlay").style.display = 'none';
+   function hideAdvSearch() {
+      document.getElementById("adv-search-container").style.display = 'none';
+      setHeaderOffset();
    }
 
-   function createSearchBarOffset() {
+   function setHeaderOffset() {
       var height;
       height = document.getElementById("header").offsetHeight;
       document.getElementById("results-container").style.top = height + "px";
@@ -149,14 +158,45 @@
 <body onload="init()">
 
 <div id="header">
-   <h3>Flowbooru: The Better Booru!</h3>
+   <h1>Floowbooru: The Better Booru!</h1>
    <div id="searchbar">
-      <form onSubmit="searchForTerm(this.searchbox.value); return false">
-         <input id="searchbox" size=80 placeholder="What are you looking for?"> 
-         <input type="checkbox" id="nsfw">NSFW
-         <a onclick=displayAdvSearchOverlay()>Advanced Search</a>
+      <form name="search" onSubmit="searchForTerm(this.searchbox.value); return false">
+         <input id="searchbox" size=80 placeholder="What are you looking for?" /> 
+         <a onclick=displayAdvSearch()><h3>Advanced Search</h3></a>
       </form>
       <p id="number-of-results"></p>
+   </div>
+   <div id="adv-search-container">
+      <hr>
+      <h3>Size</h3>
+      <div>
+         <form name="size" onsubmit="return false;">
+            <input name="width" placeholder="Width" size=5 /> x
+            <input name="height" placeholder="Height" size= 5 /><br>
+            
+            <input type="radio" name="options" checked />Exactly
+            <input type="radio" name="options" />Larger Than
+            <input type="radio" name="options" />Smaller Than
+            <input type="radio" name="options" />Approximately
+         </form>
+      </div>
+      <h3>Order</h3>
+      <div>
+         <form name="order" onsubmit="return false;">
+            <input type="radio" name="options" checked />Default (Newest-first)<br>
+            <input type="radio" name="options" />Oldest-first<br>
+            <input type="radio" name="options" />Random
+         </form>
+      </div>
+      <h3>NSFW</h3>
+      <div>
+         <form name="nsfw" onsubmit="return false;">
+            <input type="radio" name="options" checked />No filter<br>
+            <input type="radio" name="options" />Moderate filter (No Gore/Nudity)<br>
+            <input type="radio" name="options" />Strict filter (No Questionable/Suggestive)
+         </form>
+      </div>
+      <a onclick=hideAdvSearch();><h3>Hide</h3></a>
    </div>
 </div>
 
@@ -167,13 +207,6 @@
    <div id="selection-container">
       <img id="selection-overlay-image" src="" alt="Unable to load image." />
       <button onclick=hideImageOverlay();>Hide Overlay</button>
-   </div>
-</div>
-
-<div id="adv-search-overlay">
-   <div id="adv-search-container">
-      Here's the advanced search!
-      <button onclick=hideAdvSearchOverlay();>Hide Overlay</button>
    </div>
 </div>
 </body>
