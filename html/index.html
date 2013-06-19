@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Floowbooru: The Better Booru</title>
+<title>Flowbooru: The Better Booru</title>
 
 <style>
    body, div, h1, h2, h3, h4, h5, h6, img, a, p {
@@ -20,16 +20,23 @@
    #header {
       background: #262B2C;
       z-index: 7;
-      padding-bottom: 10px;
+      padding-left: 5px;
+      padding-bottom: 5px;
+      position: fixed;
+      top: 0;
+      left: 0;
+   }
+
+   #header a {
+      text-decoration: underline;
+      cursor: pointer;
    }
    
    #results-container {
       text-align: center;
       position: absolute;
       overflow: scroll;
-      top: 0;
       bottom: 0;
-      padding: 10px;
       z-index: -1;
    }
 
@@ -39,7 +46,13 @@
       height: 200px;
    }
 
-   #selection-overlay {
+   #results-container img:hover {
+      outline-style: solid;
+      outline-width: 2px;
+      outline-color: #D8D8D8;
+   }
+
+   #selection-overlay, #adv-search-overlay {
       display: none;
       position: absolute;
       top: 0; 
@@ -50,7 +63,7 @@
       z-index: 10;
    }
 
-   #selection-container {
+   #selection-container, #adv-search-container {
       width: 100%;
       position: absolute;
       top: 10%;
@@ -92,6 +105,9 @@
          img.onclick = function() {displayImageOverlay(this.id);};
          document.getElementById("results-container").appendChild(img);
       }  
+
+      // scroll to top
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
    }
 
    function init() {
@@ -100,18 +116,31 @@
    }
 
    function displayImageOverlay(imageId) {
-      var img = document.getElementById("selection-overlay-image").src = "../imgs/" + imageId + ".jpg";
+      var img;
+      
+      hideAdvSearchOverlay();
+
+      img = document.getElementById("selection-overlay-image").src = "../imgs/" + imageId + ".jpg";
       document.getElementById("selection-overlay").style.display = 'block';
    }
    
    function hideImageOverlay() {
       document.getElementById("selection-overlay").style.display = 'none';
-   } 
+   }
+
+   function displayAdvSearchOverlay() {
+      hideImageOverlay();
+      document.getElementById("adv-search-overlay").style.display = 'block';
+   }
+
+   function hideAdvSearchOverlay() {
+      document.getElementById("adv-search-overlay").style.display = 'none';
+   }
 
    function createSearchBarOffset() {
       var height;
       height = document.getElementById("header").offsetHeight;
-      document.getElementById("offset").style.height = height + "px";
+      document.getElementById("results-container").style.top = height + "px";
    }
 
 </script>
@@ -120,24 +149,31 @@
 <body onload="init()">
 
 <div id="header">
-   <h3>Floowbooru: The Better Booru!</h3>
+   <h3>Flowbooru: The Better Booru!</h3>
    <div id="searchbar">
       <form onSubmit="searchForTerm(this.searchbox.value); return false">
          <input id="searchbox" size=80 placeholder="What are you looking for?"> 
          <input type="checkbox" id="nsfw">NSFW
+         <a onclick=displayAdvSearchOverlay()>Advanced Search</a>
       </form>
       <p id="number-of-results"></p>
    </div>
 </div>
 
 <div id="results-container">
-   <div id="offset"></div>
 </div>
 
 <div id="selection-overlay">
    <div id="selection-container">
-         <img id="selection-overlay-image" src="../imgs/sample.jpg" alt="Unable to load image." />
-         <button onclick=hideImageOverlay();>Hide Overlay</button>
+      <img id="selection-overlay-image" src="" alt="Unable to load image." />
+      <button onclick=hideImageOverlay();>Hide Overlay</button>
+   </div>
+</div>
+
+<div id="adv-search-overlay">
+   <div id="adv-search-container">
+      Here's the advanced search!
+      <button onclick=hideAdvSearchOverlay();>Hide Overlay</button>
    </div>
 </div>
 </body>
