@@ -10,6 +10,9 @@ search
 + lastId 
     + the id of the last item displayed
 + nsfw
+    + 0: no filter
+    + 1: moderate filter (no gore/nudity)
+    + 2: strict filter (no questionable/suggestive)
 + order
     + 0: normal (newest-first) 
     + 1: oldest-first 
