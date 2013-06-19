@@ -8,7 +8,7 @@ search
 + q
     + search term
 + lastId 
-    + -1 for the first time a search is called, else the id of the last item displayed
+    + the id of the last item displayed
 + nsfw
 + order
     + 0: normal (newest-first) 
@@ -17,11 +17,19 @@ search
 + numLinks 
     + Number of links to return, number of images expected to fit on a page and a half (to allow buffering).
 + size:
-    + 'axb' or 0 if no restrictions
+    + 'axb'  Note: If they only specify one parameter, the other will be empty.  For a person only wishing the width to be 1000px, the request would read 
+```
+. . .&size='1000x'. . .
+``
++ sizeType:
+    + 0: exactly
+    + 1: larger than
+    + 2: smaller than
+    + 3: approximately
 
 ### Example: 
 ```
-/api/search?q='frogs'&lastId=-1&nsfw=0&order=2&numLinks=40&size='1920x1080'
+/api/search?q='frogs'&lastId=-1&nsfw=0&order=2&numLinks=40&size='1920x1080'&sizeType=0
 ```
 
 ### Return:
@@ -44,12 +52,12 @@ related
 
 ### Request:
 + term
-+ numOfTerms 
++ numTerms 
     + maximum number to return
 
 ### Example: 
 ```
-/api/related?term='starcraft'&numOfTerms=3
+/api/related?term='starcraft'&numTerms=3
 ```  
 
 ### Return:
@@ -61,12 +69,12 @@ didyoumean
 
 ### Request:
 + term
-+ numAlt
++ numTerms
     + Number of alternate tags to return.
 
 ### Example: 
 ```
-/api/didyoumean?term='mizspeld'&numAlt=2
+/api/didyoumean?term='mizspeld'&numTerms=2
 ```
 
 ### Return:
@@ -75,8 +83,8 @@ didyoumean
 + alts: [ 'alt1', 'alt2', . . .]
     + closest tags
 
-uploadlink
-----------
+upload
+------
 
 ### Request:
 + link='http://www.google.com/images/logos/google_logo_41.png'
@@ -84,7 +92,7 @@ uploadlink
 
 ### Example:
 ```
-/api/uploadlink?link='http://www.google.com/images/logos/google_logo_41.png'&tags='google'+'logo
+/api/uploadlink?link='http://www.google.com/images/logos/google_logo_41.png'&tags='google'+'logo'
 ```
 
 ### Return:
@@ -92,8 +100,6 @@ uploadlink
 + id: 'asdf'
     + Image id  
 
-uploadfile
-----------
 
 makealbum
 ---------
@@ -121,6 +127,5 @@ To-do
 + [ ] search
 + [ ] related
 + [ ] didyoumean
-+ [ ] uploadlink
-+ [ ] uploadfile
++ [ ] upload
 + [ ] makealbum
