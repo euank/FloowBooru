@@ -20,7 +20,8 @@ search
     + 'axb'  Note: If they only specify one parameter, the other will be empty.  For a person only wishing the width to be 1000px, the request would read 
 ```
 . . .&size='1000x'. . .
-``
+```
+
 + sizeType:
     + 0: exactly
     + 1: larger than
