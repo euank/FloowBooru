@@ -15,7 +15,7 @@
    body {
       background: #262B2C;
       color: #D8D8D8;
-      font-family: "Lucida Console", Monaco, monospace;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-size: .8em;
    }
    
@@ -29,7 +29,7 @@
       left: 0;
    }
 
-   #header a {
+   a {
       display: inline-block;
       text-decoration: underline;
       cursor: pointer;
@@ -152,6 +152,9 @@
       document.getElementById("results-container").style.top = height + "px";
    }
 
+   function autocomplete() {
+      var searchbar;
+   }
 </script>
 </head>
 
@@ -161,7 +164,18 @@
    <h1>Floowbooru: The Better Booru!</h1>
    <div id="searchbar">
       <form name="search" onSubmit="searchForTerm(this.searchbox.value); return false">
-         <input id="searchbox" size=80 placeholder="What are you looking for?" /> 
+         <input id="searchbox" size=80 placeholder="What are you looking for?" autofocus autocomplete='off' list="search-options" /> 
+          <datalist id="search-options">
+          <option value="cats"></option>
+          <option value="kitties"></option>
+          <option value="Amar"></option>
+          <option value="Avinash"></option>
+          <option value="Kundan"></option>
+          <option value="Amit"></option>
+          <option value="Viresh"></option>
+          <option value="Vivek"></option>
+          </datalist>
+         
          <a onclick=displayAdvSearch()><h3>Advanced Search</h3></a>
       </form>
       <p id="number-of-results"></p>
@@ -180,6 +194,7 @@
             <input type="radio" name="options" />Approximately
          </form>
       </div>
+      <hr>
       <h3>Order</h3>
       <div>
          <form name="order" onsubmit="return false;">
@@ -188,6 +203,7 @@
             <input type="radio" name="options" />Random
          </form>
       </div>
+      <hr>
       <h3>NSFW</h3>
       <div>
          <form name="nsfw" onsubmit="return false;">
@@ -205,8 +221,8 @@
 
 <div id="selection-overlay">
    <div id="selection-container">
-      <img id="selection-overlay-image" src="" alt="Unable to load image." />
-      <button onclick=hideImageOverlay();>Hide Overlay</button>
+      <div><img id="selection-overlay-image" src="" alt="Unable to load image." /></div>
+      <a onclick=hideImageOverlay();><h3>Back to results</h3></a>
    </div>
 </div>
 </body>
